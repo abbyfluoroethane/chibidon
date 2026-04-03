@@ -43,7 +43,7 @@ android {
 dependencies {
 	// Wear Compose (M3 Expressive)
 	val wearComposeVersion = "1.5.0"
-	implementation("androidx.wear.compose:compose-material3:1.0.0-beta01")
+	implementation("androidx.wear.compose:compose-material3:$wearComposeVersion")
 	implementation("androidx.wear.compose:compose-foundation:$wearComposeVersion")
 	implementation("androidx.wear.compose:compose-navigation:$wearComposeVersion")
 

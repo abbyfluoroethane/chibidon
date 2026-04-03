@@ -1,24 +1,20 @@
 package org.chibidon.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
-import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import org.chibidon.viewmodel.LoginUiState
 import org.chibidon.viewmodel.LoginViewModel
 
@@ -28,7 +24,7 @@ fun LoginScreen(
 	viewModel: LoginViewModel = viewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsState()
-	val listState = rememberScalingLazyListState()
+	val columnState = rememberTransformingLazyColumnState()
 
 	LaunchedEffect(uiState) {
 		if (uiState is LoginUiState.Success) {
@@ -36,62 +32,59 @@ fun LoginScreen(
 		}
 	}
 
-	ScalingLazyColumn(
-		modifier = Modifier.fillMaxSize(),
-		horizontalAlignment = Alignment.CenterHorizontally,
-		verticalArrangement = Arrangement.Center,
-		state = listState,
-	) {
-		item {
-			ListHeader {
-				Text("Chibidon", style = MaterialTheme.typography.titleMedium)
-			}
-		}
-
-		when (val state = uiState) {
-			is LoginUiState.WaitingForPhone -> {
-				item { CircularProgressIndicator() }
-				item {
-					Text(
-						text = "Open Chibidon Companion on your phone to sign in",
-						style = MaterialTheme.typography.bodySmall,
-						textAlign = TextAlign.Center,
-						modifier = Modifier.padding(horizontal = 16.dp),
-					)
+	ScreenScaffold(scrollState = columnState) { contentPadding ->
+		TransformingLazyColumn(
+			state = columnState,
+			contentPadding = contentPadding,
+			modifier = Modifier.fillMaxSize(),
+		) {
+			item {
+				ListHeader {
+					Text("Chibidon", style = MaterialTheme.typography.titleMedium)
 				}
 			}
 
-			is LoginUiState.Verifying -> {
-				item { CircularProgressIndicator() }
-				item {
-					Text(
-						text = "Signing in...",
-						style = MaterialTheme.typography.bodySmall,
-					)
+			when (val state = uiState) {
+				is LoginUiState.WaitingForPhone -> {
+					item { CircularProgressIndicator() }
+					item {
+						Text(
+							text = "Open Chibidon Companion on your phone to sign in",
+							style = MaterialTheme.typography.bodySmall,
+							textAlign = TextAlign.Center,
+						)
+					}
 				}
-			}
 
-			is LoginUiState.Error -> {
-				item {
-					Text(
-						text = state.message,
-						style = MaterialTheme.typography.bodySmall,
-						textAlign = TextAlign.Center,
-						modifier = Modifier.padding(horizontal = 16.dp),
-					)
+				is LoginUiState.Verifying -> {
+					item { CircularProgressIndicator() }
+					item {
+						Text(
+							text = "Signing in...",
+							style = MaterialTheme.typography.bodySmall,
+						)
+					}
 				}
-				item {
-					Text(
-						text = "Try signing in again from your phone",
-						style = MaterialTheme.typography.labelSmall,
-						color = MaterialTheme.colorScheme.onSurfaceVariant,
-						textAlign = TextAlign.Center,
-					)
-				}
-			}
 
-			is LoginUiState.Success -> {
-				// Handled by LaunchedEffect
+				is LoginUiState.Error -> {
+					item {
+						Text(
+							text = state.message,
+							style = MaterialTheme.typography.bodySmall,
+							textAlign = TextAlign.Center,
+						)
+					}
+					item {
+						Text(
+							text = "Try signing in again from your phone",
+							style = MaterialTheme.typography.labelSmall,
+							color = MaterialTheme.colorScheme.onSurfaceVariant,
+							textAlign = TextAlign.Center,
+						)
+					}
+				}
+
+				is LoginUiState.Success -> {}
 			}
 		}
 	}

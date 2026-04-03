@@ -1,18 +1,12 @@
 package org.chibidon.ui.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import org.chibidon.ui.components.PageIndicator
+import androidx.wear.compose.foundation.pager.HorizontalPager
+import androidx.wear.compose.foundation.pager.rememberPagerState
+import androidx.wear.compose.material3.HorizontalPagerScaffold
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomePagerScreen(
 	onStatusClick: (String) -> Unit,
@@ -21,7 +15,10 @@ fun HomePagerScreen(
 ) {
 	val pagerState = rememberPagerState(pageCount = { 3 })
 
-	Box(modifier = Modifier.fillMaxSize()) {
+	HorizontalPagerScaffold(
+		pagerState = pagerState,
+		modifier = Modifier.fillMaxSize(),
+	) {
 		HorizontalPager(
 			state = pagerState,
 			modifier = Modifier.fillMaxSize(),
@@ -39,13 +36,5 @@ fun HomePagerScreen(
 				)
 			}
 		}
-
-		PageIndicator(
-			pageCount = 3,
-			currentPage = pagerState.currentPage,
-			modifier = Modifier
-				.align(Alignment.BottomCenter)
-				.padding(bottom = 4.dp),
-		)
 	}
 }
