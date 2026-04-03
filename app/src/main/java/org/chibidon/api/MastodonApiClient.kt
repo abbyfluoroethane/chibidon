@@ -107,6 +107,23 @@ class MastodonApiClient {
 		return post(apiUrl("/api/v1/statuses/$statusId/unbookmark").toString(), FormBody.Builder().build())
 	}
 
+	suspend fun postStatus(
+		text: String,
+		visibility: String = "public",
+		inReplyToId: String? = null,
+	): Status {
+		val body = FormBody.Builder()
+			.add("status", text)
+			.add("visibility", visibility)
+			.apply { inReplyToId?.let { add("in_reply_to_id", it) } }
+			.build()
+		return post(apiUrl("/api/v1/statuses").toString(), body)
+	}
+
+	suspend fun getStatusContext(id: String): StatusContext {
+		return get(apiUrl("/api/v1/statuses/$id/context").toString())
+	}
+
 	// --- Notifications ---
 
 	suspend fun getNotifications(maxId: String? = null, limit: Int = 20): List<Notification> {

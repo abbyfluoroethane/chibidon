@@ -10,7 +10,7 @@ import org.chibidon.model.Status
 
 sealed class StatusDetailUiState {
 	data object Loading : StatusDetailUiState()
-	data class Success(val status: Status) : StatusDetailUiState()
+	data class Success(val status: Status, val parent: Status? = null) : StatusDetailUiState()
 	data class Error(val message: String) : StatusDetailUiState()
 }
 
@@ -25,7 +25,14 @@ class StatusDetailViewModel : ViewModel() {
 			_uiState.value = StatusDetailUiState.Loading
 			try {
 				val status = api.getStatus(statusId)
-				_uiState.value = StatusDetailUiState.Success(status)
+				var parent: Status? = null
+				if (status.inReplyToId != null) {
+					try {
+						val context = api.getStatusContext(statusId)
+						parent = context.ancestors.lastOrNull()
+					} catch (_: Exception) {}
+				}
+				_uiState.value = StatusDetailUiState.Success(status, parent)
 			} catch (e: Exception) {
 				_uiState.value = StatusDetailUiState.Error(e.message ?: "Unknown error")
 			}
@@ -34,44 +41,54 @@ class StatusDetailViewModel : ViewModel() {
 
 	fun toggleFavourite() {
 		val state = _uiState.value as? StatusDetailUiState.Success ?: return
+		val s = state.status
+		// Optimistic update
+		_uiState.value = state.copy(
+			status = s.copy(
+				favourited = !s.favourited,
+				favouritesCount = s.favouritesCount + if (s.favourited) -1 else 1,
+			)
+		)
 		viewModelScope.launch {
 			try {
-				val updated = if (state.status.favourited) {
-					api.unfavourite(state.status.id)
-				} else {
-					api.favourite(state.status.id)
-				}
-				_uiState.value = StatusDetailUiState.Success(updated)
-			} catch (_: Exception) {}
+				if (s.favourited) api.unfavourite(s.id) else api.favourite(s.id)
+			} catch (_: Exception) {
+				// Revert
+				_uiState.value = state
+			}
 		}
 	}
 
 	fun toggleReblog() {
 		val state = _uiState.value as? StatusDetailUiState.Success ?: return
+		val s = state.status
+		_uiState.value = state.copy(
+			status = s.copy(
+				reblogged = !s.reblogged,
+				reblogsCount = s.reblogsCount + if (s.reblogged) -1 else 1,
+			)
+		)
 		viewModelScope.launch {
 			try {
-				val updated = if (state.status.reblogged) {
-					api.unreblog(state.status.id)
-				} else {
-					api.reblog(state.status.id)
-				}
-				// unreblog returns a wrapped status, the inner reblog is what we want
-				_uiState.value = StatusDetailUiState.Success(updated.reblog ?: updated)
-			} catch (_: Exception) {}
+				if (s.reblogged) api.unreblog(s.id) else api.reblog(s.id)
+			} catch (_: Exception) {
+				_uiState.value = state
+			}
 		}
 	}
 
 	fun toggleBookmark() {
 		val state = _uiState.value as? StatusDetailUiState.Success ?: return
+		val s = state.status
+		_uiState.value = state.copy(
+			status = s.copy(bookmarked = !s.bookmarked)
+		)
 		viewModelScope.launch {
 			try {
-				val updated = if (state.status.bookmarked) {
-					api.unbookmark(state.status.id)
-				} else {
-					api.bookmark(state.status.id)
-				}
-				_uiState.value = StatusDetailUiState.Success(updated)
-			} catch (_: Exception) {}
+				if (s.bookmarked) api.unbookmark(s.id) else api.bookmark(s.id)
+			} catch (_: Exception) {
+				_uiState.value = state
+			}
 		}
 	}
 }

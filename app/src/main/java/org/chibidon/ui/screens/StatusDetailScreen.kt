@@ -1,9 +1,12 @@
 package org.chibidon.ui.screens
 
+import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -15,16 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import coil.compose.AsyncImage
 import org.chibidon.ui.components.HtmlText
+import org.chibidon.util.relativeTimestamp
 import org.chibidon.viewmodel.StatusDetailUiState
 import org.chibidon.viewmodel.StatusDetailViewModel
 
@@ -35,6 +41,7 @@ fun StatusDetailScreen(
 ) {
 	val uiState by viewModel.uiState.collectAsState()
 	val listState = rememberScalingLazyListState()
+	val view = LocalView.current
 
 	LaunchedEffect(statusId) {
 		viewModel.load(statusId)
@@ -57,20 +64,53 @@ fun StatusDetailScreen(
 			is StatusDetailUiState.Success -> {
 				val status = state.status
 
+				// Parent post context for replies
+				state.parent?.let { parent ->
+					item {
+						Card(
+							onClick = {},
+							modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+						) {
+							Row(verticalAlignment = Alignment.CenterVertically) {
+								AsyncImage(
+									model = parent.account.avatar,
+									contentDescription = null,
+									modifier = Modifier.size(14.dp).clip(CircleShape),
+									contentScale = ContentScale.Crop,
+								)
+								Spacer(Modifier.width(4.dp))
+								Text(
+									text = parent.account.displayName.ifEmpty { parent.account.username },
+									style = MaterialTheme.typography.labelSmall,
+									color = MaterialTheme.colorScheme.onSurfaceVariant,
+								)
+							}
+							HtmlText(html = parent.content, maxLines = 3)
+						}
+					}
+					item { Spacer(Modifier.height(4.dp)) }
+				}
+
 				item {
 					Row(verticalAlignment = Alignment.CenterVertically) {
 						AsyncImage(
 							model = status.account.avatar,
 							contentDescription = null,
 							modifier = Modifier
-								.size(32.dp)
+								.size(24.dp)
 								.clip(CircleShape),
 							contentScale = ContentScale.Crop,
 						)
-						Spacer(Modifier.width(8.dp))
+						Spacer(Modifier.width(6.dp))
 						Text(
 							text = status.account.displayName.ifEmpty { status.account.username },
 							style = MaterialTheme.typography.titleSmall,
+							modifier = Modifier.weight(1f),
+						)
+						Text(
+							text = relativeTimestamp(status.createdAt),
+							style = MaterialTheme.typography.labelSmall,
+							color = MaterialTheme.colorScheme.onSurfaceVariant,
 						)
 					}
 				}
@@ -79,6 +119,7 @@ fun StatusDetailScreen(
 					Text(
 						text = "@${status.account.acct}",
 						style = MaterialTheme.typography.labelSmall,
+						color = MaterialTheme.colorScheme.onSurfaceVariant,
 					)
 				}
 
@@ -90,23 +131,31 @@ fun StatusDetailScreen(
 
 				item { Spacer(Modifier.height(8.dp)) }
 
-				// Action buttons
 				item {
 					Row {
 						Button(
-							onClick = { viewModel.toggleFavourite() },
+							onClick = {
+								view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+								viewModel.toggleFavourite()
+							},
 						) {
 							Text(if (status.favourited) "\u2B50" else "\u2606")
 						}
 						Spacer(Modifier.width(4.dp))
 						Button(
-							onClick = { viewModel.toggleReblog() },
+							onClick = {
+								view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+								viewModel.toggleReblog()
+							},
 						) {
 							Text(if (status.reblogged) "\u267B\uFE0F" else "\u267B")
 						}
 						Spacer(Modifier.width(4.dp))
 						Button(
-							onClick = { viewModel.toggleBookmark() },
+							onClick = {
+								view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+								viewModel.toggleBookmark()
+							},
 						) {
 							Text(if (status.bookmarked) "\uD83D\uDD16" else "\uD83D\uDD17")
 						}

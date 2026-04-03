@@ -51,6 +51,8 @@ dependencies {
 	implementation(platform("androidx.compose:compose-bom:2024.06.00"))
 	implementation("androidx.compose.ui:ui")
 	implementation("androidx.compose.ui:ui-tooling-preview")
+	implementation("androidx.compose.foundation:foundation")
+	implementation("androidx.compose.material:material")
 	debugImplementation("androidx.compose.ui:ui-tooling")
 
 	// Activity & Lifecycle

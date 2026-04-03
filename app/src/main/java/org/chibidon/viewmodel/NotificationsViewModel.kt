@@ -20,11 +20,14 @@ class NotificationsViewModel : ViewModel() {
 	private val _uiState = MutableStateFlow<NotificationsUiState>(NotificationsUiState.Loading)
 	val uiState: StateFlow<NotificationsUiState> = _uiState
 
+	private val _isRefreshing = MutableStateFlow(false)
+	val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
 	init {
-		refresh()
+		loadInitial()
 	}
 
-	fun refresh() {
+	private fun loadInitial() {
 		viewModelScope.launch {
 			_uiState.value = NotificationsUiState.Loading
 			try {
@@ -33,6 +36,19 @@ class NotificationsViewModel : ViewModel() {
 			} catch (e: Exception) {
 				_uiState.value = NotificationsUiState.Error(e.message ?: "Unknown error")
 			}
+		}
+	}
+
+	fun refresh() {
+		viewModelScope.launch {
+			_isRefreshing.value = true
+			try {
+				val notifications = api.getNotifications()
+				_uiState.value = NotificationsUiState.Success(notifications)
+			} catch (_: Exception) {
+				// Keep existing data
+			}
+			_isRefreshing.value = false
 		}
 	}
 }

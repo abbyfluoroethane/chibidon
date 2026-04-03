@@ -92,3 +92,8 @@ data class Token(
 	val scope: String = "",
 	@SerializedName("created_at") val createdAt: Long = 0,
 )
+
+data class StatusContext(
+	val ancestors: List<Status> = emptyList(),
+	val descendants: List<Status> = emptyList(),
+)

@@ -8,10 +8,10 @@ import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import org.chibidon.api.AccountManager
 import org.chibidon.ui.Routes
+import org.chibidon.ui.screens.ComposeScreen
+import org.chibidon.ui.screens.HomePagerScreen
 import org.chibidon.ui.screens.LoginScreen
-import org.chibidon.ui.screens.NotificationsScreen
 import org.chibidon.ui.screens.StatusDetailScreen
-import org.chibidon.ui.screens.TimelineScreen
 import org.chibidon.ui.theme.ChibidonTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,12 +21,11 @@ class MainActivity : ComponentActivity() {
 		val accountManager = AccountManager(applicationContext)
 		val savedAccount = accountManager.getSavedAccount()
 
-		// Restore API client configuration if logged in
 		if (savedAccount != null) {
 			WearApp.instance.apiClient.configure(savedAccount.domain, savedAccount.accessToken)
 		}
 
-		val startDestination = if (savedAccount != null) Routes.TIMELINE else Routes.LOGIN
+		val startDestination = if (savedAccount != null) Routes.HOME_PAGER else Routes.LOGIN
 
 		setContent {
 			ChibidonTheme {
@@ -39,20 +38,26 @@ class MainActivity : ComponentActivity() {
 					composable(Routes.LOGIN) {
 						LoginScreen(
 							onLoginSuccess = {
-								navController.navigate(Routes.TIMELINE) {
+								navController.navigate(Routes.HOME_PAGER) {
 									popUpTo(Routes.LOGIN) { inclusive = true }
 								}
 							},
 						)
 					}
 
-					composable(Routes.TIMELINE) {
-						TimelineScreen(
+					composable(Routes.HOME_PAGER) {
+						HomePagerScreen(
 							onStatusClick = { statusId ->
 								navController.navigate(Routes.statusDetail(statusId))
 							},
-							onNotificationsClick = {
-								navController.navigate(Routes.NOTIFICATIONS)
+							onComposeClick = {
+								navController.navigate(Routes.COMPOSE)
+							},
+							onLogout = {
+								accountManager.clearAccount()
+								navController.navigate(Routes.LOGIN) {
+									popUpTo(0) { inclusive = true }
+								}
 							},
 						)
 					}
@@ -62,11 +67,9 @@ class MainActivity : ComponentActivity() {
 						StatusDetailScreen(statusId = statusId)
 					}
 
-					composable(Routes.NOTIFICATIONS) {
-						NotificationsScreen(
-							onStatusClick = { statusId ->
-								navController.navigate(Routes.statusDetail(statusId))
-							},
+					composable(Routes.COMPOSE) {
+						ComposeScreen(
+							onDone = { navController.popBackStack() },
 						)
 					}
 				}
