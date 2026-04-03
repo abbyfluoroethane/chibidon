@@ -1,0 +1,180 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:2:1-30:12
+INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:2:1-30:12
+INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:2:1-30:12
+INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:2:1-30:12
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ccf31a8f39fc90ba90fc7e586afb022f/transformed/play-services-wearable-18.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ee0cc85a2948aee4173b09e5ec0825dd/transformed/play-services-tasks-18.0.1/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0ae19ae5a51c7fe30ae47b5b6e812995/transformed/fragment-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/fcd1cefb17ce32e88aee08bd8685c419/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/84655c29c2920747fdb3f9b6dcfb100c/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0de0abcf13a7fbf9c8da78ef981f0982/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/177c4fb90adee9c3b1f13ea27730489f/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b9464998e4ca2c870c4ed65e6b3fd7eb/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/c68c05a05ad7a64e17598dcca07f38bb/transformed/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/7366fd25b38cc835bee6f475be826869/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b4e2155b09fb4d2a82ee2210f74de4b6/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/9d4be675a9e77fcc20e7c88f44d1362e/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/86e159048e664d2f2b942dfc283668e7/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.2.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8b1b3a5e4da98b84ae016378326457d1/transformed/core-1.2.0/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/45a90a1b8b1854a286419dff35c978b4/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b1a8ac1fa0f2a354ce8ebdd4892d1f1f/transformed/lifecycle-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8824aaa0f461dd37fc0102ed513139cd/transformed/lifecycle-viewmodel-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/88eff30a22efb6687f65943f80454d5a/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/280d48061396bdfbdabc1d7f59a23f6c/transformed/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/db31563d67ff57d8dcf7faffae434fa5/transformed/core-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/9c3c5103c05a0f062c4aa72715398688/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/4812819075d11bf7d9c3fc484885a720/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/190c3bfa5649ed0da75fee076aae99ce/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0ac8ca7d0d40762f8671e5927b96d932/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/476963e4afcc900cc51b726ad053ed2a/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+	package
+		INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:4:2-64
+	android:name
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:4:19-61
+application
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:6:2-28:16
+INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:6:2-28:16
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ccf31a8f39fc90ba90fc7e586afb022f/transformed/play-services-wearable-18.1.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ccf31a8f39fc90ba90fc7e586afb022f/transformed/play-services-wearable-18.1.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ee0cc85a2948aee4173b09e5ec0825dd/transformed/play-services-tasks-18.0.1/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ee0cc85a2948aee4173b09e5ec0825dd/transformed/play-services-tasks-18.0.1/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.core:core:1.2.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8b1b3a5e4da98b84ae016378326457d1/transformed/core-1.2.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.2.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8b1b3a5e4da98b84ae016378326457d1/transformed/core-1.2.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/45a90a1b8b1854a286419dff35c978b4/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/45a90a1b8b1854a286419dff35c978b4/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+	android:extractNativeLibs
+		INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.2.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8b1b3a5e4da98b84ae016378326457d1/transformed/core-1.2.0/AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:9:3-29
+	android:label
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:8:3-35
+	android:allowBackup
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:7:3-29
+	android:theme
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:10:3-66
+activity#org.chibidon.phone.AuthCallbackActivity
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:12:3-26:14
+	android:launchMode
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:16:4-35
+	android:exported
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:14:4-27
+	android:theme
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:17:4-63
+	android:taskAffinity
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:15:4-27
+	android:name
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:13:4-40
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:callback+data:scheme:chibidon
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:18:4-25:20
+action#android.intent.action.VIEW
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:19:5-57
+	android:name
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:19:13-54
+category#android.intent.category.DEFAULT
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:20:5-64
+	android:name
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:20:15-61
+category#android.intent.category.BROWSABLE
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:21:5-66
+	android:name
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:21:15-63
+data
+ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:22:5-24:32
+	android:host
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:24:6-29
+	android:scheme
+		ADDED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml:23:6-31
+uses-sdk
+INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ccf31a8f39fc90ba90fc7e586afb022f/transformed/play-services-wearable-18.1.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ccf31a8f39fc90ba90fc7e586afb022f/transformed/play-services-wearable-18.1.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ee0cc85a2948aee4173b09e5ec0825dd/transformed/play-services-tasks-18.0.1/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ee0cc85a2948aee4173b09e5ec0825dd/transformed/play-services-tasks-18.0.1/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:18:5-43
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0ae19ae5a51c7fe30ae47b5b6e812995/transformed/fragment-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0ae19ae5a51c7fe30ae47b5b6e812995/transformed/fragment-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/fcd1cefb17ce32e88aee08bd8685c419/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/fcd1cefb17ce32e88aee08bd8685c419/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/84655c29c2920747fdb3f9b6dcfb100c/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/84655c29c2920747fdb3f9b6dcfb100c/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0de0abcf13a7fbf9c8da78ef981f0982/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0de0abcf13a7fbf9c8da78ef981f0982/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/177c4fb90adee9c3b1f13ea27730489f/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/177c4fb90adee9c3b1f13ea27730489f/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b9464998e4ca2c870c4ed65e6b3fd7eb/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b9464998e4ca2c870c4ed65e6b3fd7eb/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/c68c05a05ad7a64e17598dcca07f38bb/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/c68c05a05ad7a64e17598dcca07f38bb/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/7366fd25b38cc835bee6f475be826869/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/7366fd25b38cc835bee6f475be826869/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b4e2155b09fb4d2a82ee2210f74de4b6/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b4e2155b09fb4d2a82ee2210f74de4b6/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/9d4be675a9e77fcc20e7c88f44d1362e/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/9d4be675a9e77fcc20e7c88f44d1362e/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/86e159048e664d2f2b942dfc283668e7/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/86e159048e664d2f2b942dfc283668e7/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.2.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8b1b3a5e4da98b84ae016378326457d1/transformed/core-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.2.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8b1b3a5e4da98b84ae016378326457d1/transformed/core-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/45a90a1b8b1854a286419dff35c978b4/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/45a90a1b8b1854a286419dff35c978b4/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b1a8ac1fa0f2a354ce8ebdd4892d1f1f/transformed/lifecycle-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/b1a8ac1fa0f2a354ce8ebdd4892d1f1f/transformed/lifecycle-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8824aaa0f461dd37fc0102ed513139cd/transformed/lifecycle-viewmodel-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/8824aaa0f461dd37fc0102ed513139cd/transformed/lifecycle-viewmodel-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/88eff30a22efb6687f65943f80454d5a/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/88eff30a22efb6687f65943f80454d5a/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/280d48061396bdfbdabc1d7f59a23f6c/transformed/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/280d48061396bdfbdabc1d7f59a23f6c/transformed/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/db31563d67ff57d8dcf7faffae434fa5/transformed/core-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/db31563d67ff57d8dcf7faffae434fa5/transformed/core-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/9c3c5103c05a0f062c4aa72715398688/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/9c3c5103c05a0f062c4aa72715398688/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/4812819075d11bf7d9c3fc484885a720/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/4812819075d11bf7d9c3fc484885a720/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/190c3bfa5649ed0da75fee076aae99ce/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/190c3bfa5649ed0da75fee076aae99ce/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0ac8ca7d0d40762f8671e5927b96d932/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/0ac8ca7d0d40762f8671e5927b96d932/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/476963e4afcc900cc51b726ad053ed2a/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/476963e4afcc900cc51b726ad053ed2a/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+	android:targetSdkVersion
+		INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/abbyfluoroethane/Documents/GitHub/chibidon/phone/src/main/AndroidManifest.xml
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/abbyfluoroethane/.gradle/caches/transforms-3/ed3edaf4eceae8ba113e68950b60a5e5/transformed/play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.0.0] /Users/abbyfluoroethane/.gradle/caches/transforms-3/480bcdc186ba0996ec86ca01a3b34339/transformed/play-services-basement-18.0.0/AndroidManifest.xml:22:13-58

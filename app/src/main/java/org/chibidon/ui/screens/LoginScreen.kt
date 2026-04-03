@@ -33,6 +33,7 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.remote.interactions.RemoteActivityHelper
+import org.chibidon.AuthCodeHolder
 import org.chibidon.viewmodel.LoginUiState
 import org.chibidon.viewmodel.LoginViewModel
 
@@ -71,6 +72,15 @@ fun LoginScreen(
 			if (!code.isNullOrBlank()) {
 				viewModel.submitAuthCode(code)
 			}
+		}
+	}
+
+	// Auto-detect code from phone via Data Layer
+	val pendingCode by AuthCodeHolder.code.collectAsState()
+	LaunchedEffect(pendingCode) {
+		val code = AuthCodeHolder.consume()
+		if (code != null && uiState is LoginUiState.WaitingForCode) {
+			viewModel.submitAuthCode(code)
 		}
 	}
 
@@ -162,7 +172,7 @@ fun LoginScreen(
 			is LoginUiState.WaitingForCode -> {
 				item {
 					Text(
-						text = "1. Open auth on your phone\n2. Log in and copy the code\n3. Enter the code below",
+						text = "1. Tap to open auth on phone\n2. Log in and authorize\n3. Code syncs automatically",
 						style = MaterialTheme.typography.bodySmall,
 						textAlign = TextAlign.Center,
 						modifier = Modifier.padding(horizontal = 8.dp),
@@ -181,6 +191,18 @@ fun LoginScreen(
 					) { Text("\uD83D\uDCF1 Open on Phone") }
 				}
 				item {
+					CircularProgressIndicator()
+				}
+				item {
+					Text(
+						text = "Waiting for code from phone...",
+						style = MaterialTheme.typography.labelSmall,
+						color = MaterialTheme.colorScheme.onSurfaceVariant,
+						textAlign = TextAlign.Center,
+					)
+				}
+				// Fallback: manual entry
+				item {
 					Button(
 						onClick = {
 							val remoteInput = RemoteInput.Builder(KEY_AUTH_CODE)
@@ -191,7 +213,7 @@ fun LoginScreen(
 							codeLauncher.launch(intent)
 						},
 						modifier = Modifier.fillMaxWidth(),
-					) { Text("\u2328\uFE0F Enter Code") }
+					) { Text("Enter code manually") }
 				}
 			}
 

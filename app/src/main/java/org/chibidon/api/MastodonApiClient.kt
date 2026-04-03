@@ -36,7 +36,7 @@ class MastodonApiClient {
 	suspend fun createApp(domain: String): Application {
 		val body = FormBody.Builder()
 			.add("client_name", "Chibidon")
-			.add("redirect_uris", "urn:ietf:wg:oauth:2.0:oob")
+			.add("redirect_uris", "chibidon://callback")
 			.add("scopes", "read write follow push")
 			.add("website", "https://github.com/abbyfluoroethane/chibidon")
 			.build()
@@ -47,7 +47,7 @@ class MastodonApiClient {
 	fun getAuthorizationUrl(domain: String, clientId: String): String {
 		return "https://$domain/oauth/authorize".toHttpUrl().newBuilder()
 			.addQueryParameter("client_id", clientId)
-			.addQueryParameter("redirect_uri", "urn:ietf:wg:oauth:2.0:oob")
+			.addQueryParameter("redirect_uri", "chibidon://callback")
 			.addQueryParameter("response_type", "code")
 			.addQueryParameter("scope", "read write follow push")
 			.build()
@@ -58,7 +58,7 @@ class MastodonApiClient {
 		val body = FormBody.Builder()
 			.add("client_id", clientId)
 			.add("client_secret", clientSecret)
-			.add("redirect_uri", "urn:ietf:wg:oauth:2.0:oob")
+			.add("redirect_uri", "chibidon://callback")
 			.add("grant_type", "authorization_code")
 			.add("code", code)
 			.add("scope", "read write follow push")

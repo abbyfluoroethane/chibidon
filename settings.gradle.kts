@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Chibidon"
 include(":app")
+include(":phone")
