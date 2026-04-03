@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import org.chibidon.BuildConfig
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.platform.LocalContext
@@ -100,14 +101,16 @@ fun LoginScreen(
 							textAlign = TextAlign.Center,
 						)
 					}
-					item {
-						Button(
-							onClick = { viewModel.showManualLogin() },
-							modifier = Modifier.fillMaxWidth(),
-						) {
-							Icon(Icons.Rounded.Edit, contentDescription = null, modifier = Modifier.size(16.dp))
-							Spacer(Modifier.width(4.dp))
-							Text("Sign in manually")
+					if (BuildConfig.DEBUG) {
+						item {
+							Button(
+								onClick = { viewModel.showManualLogin() },
+								modifier = Modifier.fillMaxWidth(),
+							) {
+								Icon(Icons.Rounded.Edit, contentDescription = null, modifier = Modifier.size(16.dp))
+								Spacer(Modifier.width(4.dp))
+								Text("Sign in manually")
+							}
 						}
 					}
 				}
@@ -216,11 +219,13 @@ fun LoginScreen(
 								textAlign = TextAlign.Center,
 							)
 						}
-						item {
-							Button(
-								onClick = { viewModel.showManualLogin() },
-								modifier = Modifier.fillMaxWidth(),
-							) { Text("Sign in manually") }
+						if (BuildConfig.DEBUG) {
+							item {
+								Button(
+									onClick = { viewModel.showManualLogin() },
+									modifier = Modifier.fillMaxWidth(),
+								) { Text("Sign in manually") }
+							}
 						}
 					}
 				}
