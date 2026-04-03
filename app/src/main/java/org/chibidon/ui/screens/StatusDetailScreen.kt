@@ -64,7 +64,7 @@ fun StatusDetailScreen(
 			start = contentPadding.calculateLeftPadding(androidx.compose.ui.unit.LayoutDirection.Ltr),
 			end = contentPadding.calculateRightPadding(androidx.compose.ui.unit.LayoutDirection.Ltr),
 			top = contentPadding.calculateTopPadding() + 28.dp,
-			bottom = contentPadding.calculateBottomPadding(),
+			bottom = contentPadding.calculateBottomPadding() + 28.dp,
 		)
 		TransformingLazyColumn(
 			state = columnState,
