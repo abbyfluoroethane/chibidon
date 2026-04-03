@@ -63,7 +63,7 @@ fun StatusDetailScreen(
 		val adjustedPadding = PaddingValues(
 			start = contentPadding.calculateLeftPadding(androidx.compose.ui.unit.LayoutDirection.Ltr),
 			end = contentPadding.calculateRightPadding(androidx.compose.ui.unit.LayoutDirection.Ltr),
-			top = contentPadding.calculateTopPadding() + 24.dp,
+			top = contentPadding.calculateTopPadding() + 28.dp,
 			bottom = contentPadding.calculateBottomPadding(),
 		)
 		TransformingLazyColumn(
