@@ -50,24 +50,22 @@ fun LoginScreen(
 	val domainLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
 	) { result ->
-		if (result.resultCode == Activity.RESULT_OK) {
-			val results = RemoteInput.getResultsFromIntent(result.data ?: return@rememberLauncherForActivityResult)
-			val domain = results.getCharSequence(KEY_DOMAIN)?.toString()?.trim()
-			if (!domain.isNullOrBlank()) {
-				viewModel.startManualLogin(domain)
-			}
+		val data = result.data ?: return@rememberLauncherForActivityResult
+		val results = RemoteInput.getResultsFromIntent(data)
+		val domain = results?.getCharSequence(KEY_DOMAIN)?.toString()?.trim()
+		if (!domain.isNullOrBlank()) {
+			viewModel.startManualLogin(domain)
 		}
 	}
 
 	val codeLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
 	) { result ->
-		if (result.resultCode == Activity.RESULT_OK) {
-			val results = RemoteInput.getResultsFromIntent(result.data ?: return@rememberLauncherForActivityResult)
-			val code = results.getCharSequence(KEY_AUTH_CODE)?.toString()?.trim()
-			if (!code.isNullOrBlank()) {
-				viewModel.submitAuthCode(code)
-			}
+		val data = result.data ?: return@rememberLauncherForActivityResult
+		val results = RemoteInput.getResultsFromIntent(data)
+		val code = results?.getCharSequence(KEY_AUTH_CODE)?.toString()?.trim()
+		if (!code.isNullOrBlank()) {
+			viewModel.submitAuthCode(code)
 		}
 	}
 

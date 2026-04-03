@@ -42,12 +42,11 @@ fun ComposeScreen(
 	val inputLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
 	) { result ->
-		if (result.resultCode == Activity.RESULT_OK) {
-			val results = RemoteInput.getResultsFromIntent(result.data ?: return@rememberLauncherForActivityResult)
-			val input = results.getCharSequence(KEY_POST)?.toString()
-			if (!input.isNullOrBlank()) {
-				text = input
-			}
+		val data = result.data ?: return@rememberLauncherForActivityResult
+		val results = RemoteInput.getResultsFromIntent(data)
+		val input = results?.getCharSequence(KEY_POST)?.toString()
+		if (!input.isNullOrBlank()) {
+			text = input
 		}
 	}
 

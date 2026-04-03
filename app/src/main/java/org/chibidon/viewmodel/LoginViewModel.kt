@@ -64,14 +64,14 @@ class LoginViewModel : ViewModel() {
 			_uiState.value = LoginUiState.Verifying
 			try {
 				val token = api.getToken(state.domain, state.clientId, state.clientSecret, code.trim(), MastodonApiClient.OOB_REDIRECT_URI)
-				handleCredentials(state.domain, token.accessToken)
+				handleCredentials(state.domain, token.accessToken, manual = true)
 			} catch (e: Exception) {
 				_uiState.value = LoginUiState.Error(e.message ?: "Login failed", manual = true)
 			}
 		}
 	}
 
-	private suspend fun handleCredentials(domain: String, accessToken: String) {
+	private suspend fun handleCredentials(domain: String, accessToken: String, manual: Boolean = false) {
 		_uiState.value = LoginUiState.Verifying
 		try {
 			api.configure(domain, accessToken)
@@ -90,7 +90,7 @@ class LoginViewModel : ViewModel() {
 			AuthCredentialHolder.consume()
 			_uiState.value = LoginUiState.Success
 		} catch (e: Exception) {
-			_uiState.value = LoginUiState.Error(e.message ?: "Failed to verify credentials")
+			_uiState.value = LoginUiState.Error(e.message ?: "Failed to verify credentials", manual = manual)
 		}
 	}
 }
