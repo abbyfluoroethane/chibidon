@@ -62,6 +62,8 @@ dependencies {
 
 	// Wear
 	implementation("androidx.wear:wear:1.3.0")
+	implementation("androidx.wear:wear-remote-interactions:1.0.0")
+	implementation("com.google.android.gms:play-services-wearable:18.1.0")
 
 	// Networking
 	implementation("com.squareup.okhttp3:okhttp:4.12.0")

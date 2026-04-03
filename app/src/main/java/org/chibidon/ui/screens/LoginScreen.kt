@@ -1,7 +1,11 @@
 package org.chibidon.ui.screens
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.speech.RecognizerIntent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +30,7 @@ import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import androidx.wear.remote.interactions.RemoteActivityHelper
 import org.chibidon.viewmodel.LoginUiState
 import org.chibidon.viewmodel.LoginViewModel
 
@@ -35,10 +40,24 @@ fun LoginScreen(
 	viewModel: LoginViewModel = viewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsState()
-	var domain by remember { mutableStateOf("") }
-	var authCode by remember { mutableStateOf("") }
 	val context = LocalContext.current
 	val listState = rememberScalingLazyListState()
+	var openingAuth by remember { mutableStateOf(false) }
+
+	val voiceLauncher = rememberLauncherForActivityResult(
+		ActivityResultContracts.StartActivityForResult()
+	) { result ->
+		if (result.resultCode == Activity.RESULT_OK) {
+			val spoken = result.data
+				?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+				?.firstOrNull()
+				?.trim()
+				?.replace(" ", "")
+			if (!spoken.isNullOrBlank()) {
+				viewModel.submitAuthCode(spoken)
+			}
+		}
+	}
 
 	LaunchedEffect(uiState) {
 		if (uiState is LoginUiState.Success) {
@@ -73,13 +92,12 @@ fun LoginScreen(
 
 				item {
 					Text(
-						text = "Enter your instance domain",
+						text = "Select your instance",
 						style = MaterialTheme.typography.bodySmall,
 						textAlign = TextAlign.Center,
 					)
 				}
 
-				// For now, provide common instances as buttons since text input on Wear is limited
 				item {
 					Button(
 						onClick = { viewModel.startLogin("mastodon.social") },
@@ -104,16 +122,26 @@ fun LoginScreen(
 				item { CircularProgressIndicator() }
 				item {
 					Text(
-						text = "Connecting...",
+						text = if (state is LoginUiState.CreatingApp) "Connecting..." else "Logging in...",
 						style = MaterialTheme.typography.bodySmall,
 					)
 				}
 			}
 
 			is LoginUiState.WaitingForCode -> {
+				if (openingAuth) {
+					item { CircularProgressIndicator() }
+					item {
+						Text(
+							text = "Opening on phone...",
+							style = MaterialTheme.typography.bodySmall,
+						)
+					}
+				}
+
 				item {
 					Text(
-						text = "Open this URL on your phone and paste the code:",
+						text = "1. Open auth on your phone\n2. Log in and copy the code\n3. Speak or enter the code",
 						style = MaterialTheme.typography.bodySmall,
 						textAlign = TextAlign.Center,
 						modifier = Modifier.padding(horizontal = 8.dp),
@@ -122,27 +150,33 @@ fun LoginScreen(
 				item {
 					Button(
 						onClick = {
-							val intent = Intent(Intent.ACTION_VIEW, Uri.parse(state.authUrl))
-							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-							context.startActivity(intent)
+							openingAuth = true
+							val helper = RemoteActivityHelper(context)
+							val intent = Intent(Intent.ACTION_VIEW)
+								.addCategory(Intent.CATEGORY_BROWSABLE)
+								.setData(Uri.parse(state.authUrl))
+							helper.startRemoteActivity(intent)
+							openingAuth = false
 						},
 						modifier = Modifier.fillMaxWidth(),
-					) { Text("Open Auth") }
+					) { Text("\uD83D\uDCF1 Open on Phone") }
 				}
-				// Placeholder for code entry — will use voice input or Remote Input in future
 				item {
 					Button(
 						onClick = {
-							// TODO: Launch voice or keyboard input for auth code
-							// For now this is a placeholder
+							val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+								putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+								putExtra(RecognizerIntent.EXTRA_PROMPT, "Say your auth code")
+							}
+							voiceLauncher.launch(intent)
 						},
 						modifier = Modifier.fillMaxWidth(),
-					) { Text("Enter Code") }
+					) { Text("\uD83C\uDF99\uFE0F Speak Code") }
 				}
 			}
 
 			is LoginUiState.Success -> {
-				// Will be handled by LaunchedEffect navigation
+				// Handled by LaunchedEffect
 			}
 		}
 	}
