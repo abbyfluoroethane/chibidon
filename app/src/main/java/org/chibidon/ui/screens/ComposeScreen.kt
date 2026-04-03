@@ -2,6 +2,8 @@ package org.chibidon.ui.screens
 
 import android.app.Activity
 import android.app.RemoteInput
+import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +30,7 @@ import org.chibidon.viewmodel.ComposeUiState
 import org.chibidon.viewmodel.ComposeViewModel
 
 private const val KEY_POST = "post_text"
+private const val TAG = "ComposeScreen"
 
 @Composable
 fun ComposeScreen(
@@ -39,24 +42,50 @@ fun ComposeScreen(
 	var text by remember { mutableStateOf("") }
 	val columnState = rememberTransformingLazyColumnState()
 
+	fun extractText(data: android.content.Intent?): String? {
+		if (data == null) return null
+		// Try standard RemoteInput extraction
+		val bundle = RemoteInput.getResultsFromIntent(data)
+		val result = bundle?.getCharSequence(KEY_POST)?.toString()
+		if (!result.isNullOrBlank()) return result
+		// Try extras directly
+		val extras = data.extras
+		if (extras != null) {
+			for (key in extras.keySet()) {
+				val value = extras.getString(key)
+				if (!value.isNullOrBlank() && key != "android.intent.extra.RESULT_RECEIVER") {
+					Log.d(TAG, "Found text in extras key '$key': $value")
+					return value
+				}
+			}
+		}
+		return null
+	}
+
 	val inputLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
 	) { result ->
-		val data = result.data ?: return@rememberLauncherForActivityResult
-		val results = RemoteInput.getResultsFromIntent(data)
-		val input = results?.getCharSequence(KEY_POST)?.toString()
-		if (!input.isNullOrBlank()) {
-			text = input
+		Log.d(TAG, "Result: code=${result.resultCode}, hasData=${result.data != null}")
+		val extracted = extractText(result.data)
+		if (!extracted.isNullOrBlank()) {
+			text = extracted
+			Log.d(TAG, "Got text: $extracted")
+		} else {
+			Log.w(TAG, "No text extracted from result")
 		}
 	}
 
-	LaunchedEffect(Unit) {
+	fun launchInput() {
 		val remoteInput = RemoteInput.Builder(KEY_POST)
-			.setLabel("What's on your mind?")
+			.setLabel(if (inReplyToId != null) "Write your reply" else "What's on your mind?")
 			.build()
 		val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
 		RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
 		inputLauncher.launch(intent)
+	}
+
+	LaunchedEffect(Unit) {
+		launchInput()
 	}
 
 	LaunchedEffect(uiState) {
@@ -75,17 +104,16 @@ fun ComposeScreen(
 				is ComposeUiState.Idle -> {
 					if (text.isBlank()) {
 						item {
+							Text(
+								text = if (inReplyToId != null) "Write your reply" else "What's on your mind?",
+								style = MaterialTheme.typography.bodySmall,
+								textAlign = TextAlign.Center,
+							)
+						}
+						item {
 							Button(
-								onClick = {
-									val remoteInput = RemoteInput.Builder(KEY_POST)
-										.setLabel("What's on your mind?")
-										.build()
-									val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
-									RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
-									inputLauncher.launch(intent)
-								},
-								modifier = Modifier
-									.fillMaxWidth()
+								onClick = { launchInput() },
+								modifier = Modifier.fillMaxWidth(),
 							) { Text("Write") }
 						}
 					} else {
@@ -99,22 +127,13 @@ fun ComposeScreen(
 						item {
 							Button(
 								onClick = { viewModel.postStatus(text, inReplyToId = inReplyToId) },
-								modifier = Modifier
-									.fillMaxWidth()
+								modifier = Modifier.fillMaxWidth(),
 							) { Text("Post") }
 						}
 						item {
 							Button(
-								onClick = {
-									val remoteInput = RemoteInput.Builder(KEY_POST)
-										.setLabel("What's on your mind?")
-										.build()
-									val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
-									RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
-									inputLauncher.launch(intent)
-								},
-								modifier = Modifier
-									.fillMaxWidth()
+								onClick = { launchInput() },
+								modifier = Modifier.fillMaxWidth(),
 							) { Text("Edit") }
 						}
 					}
@@ -131,8 +150,7 @@ fun ComposeScreen(
 					item {
 						Button(
 							onClick = { viewModel.postStatus(text, inReplyToId = inReplyToId) },
-							modifier = Modifier
-								.fillMaxWidth()
+							modifier = Modifier.fillMaxWidth(),
 						) { Text("Try again") }
 					}
 				}
