@@ -9,15 +9,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AttachFile
+import androidx.compose.material.icons.rounded.ChatBubbleOutline
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.rounded.Repeat
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import androidx.wear.compose.material3.Card
+import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
@@ -40,12 +49,21 @@ fun StatusCard(
 		modifier = modifier.fillMaxWidth(),
 	) {
 		if (status.reblog != null) {
-			Text(
-				text = "\u267B\uFE0F ${status.account.displayName.ifEmpty { status.account.username }} boosted",
-				style = MaterialTheme.typography.labelSmall,
-				color = MaterialTheme.colorScheme.onSurfaceVariant,
-				maxLines = 1,
-			)
+			Row(verticalAlignment = Alignment.CenterVertically) {
+				Icon(
+					imageVector = Icons.Rounded.Repeat,
+					contentDescription = null,
+					modifier = Modifier.size(12.dp),
+					tint = MaterialTheme.colorScheme.onSurfaceVariant,
+				)
+				Spacer(Modifier.width(4.dp))
+				Text(
+					text = "${status.account.displayName.ifEmpty { status.account.username }} boosted",
+					style = MaterialTheme.typography.labelSmall,
+					color = MaterialTheme.colorScheme.onSurfaceVariant,
+					maxLines = 1,
+				)
+			}
 			Spacer(Modifier.height(2.dp))
 		}
 
@@ -78,11 +96,20 @@ fun StatusCard(
 		Spacer(Modifier.height(4.dp))
 
 		if (displayStatus.spoilerText.isNotEmpty()) {
-			Text(
-				text = "\u26A0\uFE0F ${displayStatus.spoilerText}",
-				style = MaterialTheme.typography.bodySmall,
-				maxLines = 2,
-			)
+			Row(verticalAlignment = Alignment.CenterVertically) {
+				Icon(
+					imageVector = Icons.Rounded.Warning,
+					contentDescription = "Content warning",
+					modifier = Modifier.size(14.dp),
+					tint = MaterialTheme.colorScheme.error,
+				)
+				Spacer(Modifier.width(4.dp))
+				Text(
+					text = displayStatus.spoilerText,
+					style = MaterialTheme.typography.bodySmall,
+					maxLines = 2,
+				)
+			}
 		} else {
 			HtmlText(
 				html = displayStatus.content,
@@ -92,11 +119,20 @@ fun StatusCard(
 
 		if (displayStatus.mediaAttachments.isNotEmpty()) {
 			Spacer(Modifier.height(2.dp))
-			Text(
-				text = "\uD83D\uDCCE ${displayStatus.mediaAttachments.size} attachment${if (displayStatus.mediaAttachments.size > 1) "s" else ""}",
-				style = MaterialTheme.typography.labelSmall,
-				color = MaterialTheme.colorScheme.onSurfaceVariant,
-			)
+			Row(verticalAlignment = Alignment.CenterVertically) {
+				Icon(
+					imageVector = Icons.Rounded.AttachFile,
+					contentDescription = null,
+					modifier = Modifier.size(12.dp),
+					tint = MaterialTheme.colorScheme.onSurfaceVariant,
+				)
+				Spacer(Modifier.width(2.dp))
+				Text(
+					text = "${displayStatus.mediaAttachments.size} attachment${if (displayStatus.mediaAttachments.size > 1) "s" else ""}",
+					style = MaterialTheme.typography.labelSmall,
+					color = MaterialTheme.colorScheme.onSurfaceVariant,
+				)
+			}
 		}
 
 		Spacer(Modifier.height(4.dp))
@@ -106,8 +142,9 @@ fun StatusCard(
 			verticalAlignment = Alignment.CenterVertically,
 		) {
 			ActionChip(
-				emoji = if (displayStatus.favourited) "\u2B50" else "\u2606",
+				icon = if (displayStatus.favourited) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
 				count = displayStatus.favouritesCount,
+				contentDescription = "Favourite",
 				onClick = if (onFavouriteClick != null) {
 					{
 						view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
@@ -116,8 +153,9 @@ fun StatusCard(
 				} else null,
 			)
 			ActionChip(
-				emoji = if (displayStatus.reblogged) "\u267B\uFE0F" else "\u267B",
+				icon = Icons.Rounded.Repeat,
 				count = displayStatus.reblogsCount,
+				contentDescription = "Boost",
 				onClick = if (onReblogClick != null) {
 					{
 						view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
@@ -125,33 +163,60 @@ fun StatusCard(
 					}
 				} else null,
 			)
-			Text(
-				text = "\uD83D\uDCAC ${displayStatus.repliesCount}",
-				style = MaterialTheme.typography.labelSmall,
-				color = MaterialTheme.colorScheme.onSurfaceVariant,
-			)
+			Row(verticalAlignment = Alignment.CenterVertically) {
+				Icon(
+					imageVector = Icons.Rounded.ChatBubbleOutline,
+					contentDescription = null,
+					modifier = Modifier.size(12.dp),
+					tint = MaterialTheme.colorScheme.onSurfaceVariant,
+				)
+				Spacer(Modifier.width(2.dp))
+				Text(
+					text = "${displayStatus.repliesCount}",
+					style = MaterialTheme.typography.labelSmall,
+					color = MaterialTheme.colorScheme.onSurfaceVariant,
+				)
+			}
 		}
 	}
 }
 
 @Composable
 private fun ActionChip(
-	emoji: String,
+	icon: ImageVector,
 	count: Int,
+	contentDescription: String,
 	onClick: (() -> Unit)?,
 ) {
 	if (onClick != null) {
 		TextButton(onClick = onClick) {
-			Text(
-				text = "$emoji $count",
-				style = MaterialTheme.typography.labelSmall,
-			)
+			Row(verticalAlignment = Alignment.CenterVertically) {
+				Icon(
+					imageVector = icon,
+					contentDescription = contentDescription,
+					modifier = Modifier.size(14.dp),
+				)
+				Spacer(Modifier.width(2.dp))
+				Text(
+					text = "$count",
+					style = MaterialTheme.typography.labelSmall,
+				)
+			}
 		}
 	} else {
-		Text(
-			text = "$emoji $count",
-			style = MaterialTheme.typography.labelSmall,
-			color = MaterialTheme.colorScheme.onSurfaceVariant,
-		)
+		Row(verticalAlignment = Alignment.CenterVertically) {
+			Icon(
+				imageVector = icon,
+				contentDescription = contentDescription,
+				modifier = Modifier.size(12.dp),
+				tint = MaterialTheme.colorScheme.onSurfaceVariant,
+			)
+			Spacer(Modifier.width(2.dp))
+			Text(
+				text = "$count",
+				style = MaterialTheme.typography.labelSmall,
+				color = MaterialTheme.colorScheme.onSurfaceVariant,
+			)
+		}
 	}
 }

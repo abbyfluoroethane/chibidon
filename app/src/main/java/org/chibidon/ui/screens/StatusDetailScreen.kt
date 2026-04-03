@@ -1,6 +1,8 @@
 package org.chibidon.ui.screens
 
 import android.view.HapticFeedbackConstants
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +11,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Bookmark
+import androidx.compose.material.icons.rounded.BookmarkBorder
+import androidx.compose.material.icons.rounded.ChatBubbleOutline
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,13 +25,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.FilledTonalIconButton
+import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
@@ -69,8 +81,7 @@ fun StatusDetailScreen(
 						item {
 							Card(
 								onClick = {},
-								modifier = Modifier
-									.fillMaxWidth()
+								modifier = Modifier.fillMaxWidth(),
 							) {
 								Row(verticalAlignment = Alignment.CenterVertically) {
 									AsyncImage(
@@ -131,45 +142,99 @@ fun StatusDetailScreen(
 
 					item { Spacer(Modifier.height(8.dp)) }
 
+					// Action row — notification-style circular icon buttons
 					item {
-						Row {
-							Button(
+						Row(
+							modifier = Modifier.fillMaxWidth(),
+							horizontalArrangement = Arrangement.SpaceEvenly,
+							verticalAlignment = Alignment.CenterVertically,
+						) {
+							ActionButton(
+								icon = if (status.favourited) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
+								label = "Like",
 								onClick = {
 									view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
 									viewModel.toggleFavourite()
 								},
-							) {
-								Text(if (status.favourited) "\u2B50" else "\u2606")
-							}
-							Spacer(Modifier.width(4.dp))
-							Button(
+							)
+							ActionButton(
+								icon = Icons.Rounded.Repeat,
+								label = "Boost",
 								onClick = {
 									view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
 									viewModel.toggleReblog()
 								},
-							) {
-								Text(if (status.reblogged) "\u267B\uFE0F" else "\u267B")
-							}
-							Spacer(Modifier.width(4.dp))
-							Button(
+							)
+							ActionButton(
+								icon = if (status.bookmarked) Icons.Rounded.Bookmark else Icons.Rounded.BookmarkBorder,
+								label = "Save",
 								onClick = {
 									view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
 									viewModel.toggleBookmark()
 								},
-							) {
-								Text(if (status.bookmarked) "\uD83D\uDD16" else "\uD83D\uDD17")
-							}
+							)
+							ActionButton(
+								icon = Icons.Rounded.ChatBubbleOutline,
+								label = "Reply",
+								onClick = {
+									view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+									// TODO: navigate to compose with inReplyToId
+								},
+							)
 						}
 					}
 
+					// Stats
 					item {
-						Text(
-							text = "\u2B50 ${status.favouritesCount}  \u267B ${status.reblogsCount}  \uD83D\uDCAC ${status.repliesCount}",
-							style = MaterialTheme.typography.labelSmall,
-						)
+						Row(
+							modifier = Modifier.fillMaxWidth(),
+							horizontalArrangement = Arrangement.SpaceEvenly,
+						) {
+							Text(
+								text = "${status.favouritesCount} likes",
+								style = MaterialTheme.typography.labelSmall,
+								color = MaterialTheme.colorScheme.onSurfaceVariant,
+							)
+							Text(
+								text = "${status.reblogsCount} boosts",
+								style = MaterialTheme.typography.labelSmall,
+								color = MaterialTheme.colorScheme.onSurfaceVariant,
+							)
+							Text(
+								text = "${status.repliesCount} replies",
+								style = MaterialTheme.typography.labelSmall,
+								color = MaterialTheme.colorScheme.onSurfaceVariant,
+							)
+						}
 					}
 				}
 			}
 		}
+	}
+}
+
+@Composable
+private fun ActionButton(
+	icon: ImageVector,
+	label: String,
+	onClick: () -> Unit,
+) {
+	Column(
+		horizontalAlignment = Alignment.CenterHorizontally,
+	) {
+		FilledTonalIconButton(
+			onClick = onClick,
+		) {
+			Icon(
+				imageVector = icon,
+				contentDescription = label,
+				modifier = Modifier.size(20.dp),
+			)
+		}
+		Text(
+			text = label,
+			style = MaterialTheme.typography.labelSmall,
+			textAlign = TextAlign.Center,
+		)
 	}
 }

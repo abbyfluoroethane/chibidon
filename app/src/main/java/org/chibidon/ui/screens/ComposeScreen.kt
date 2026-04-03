@@ -86,7 +86,7 @@ fun ComposeScreen(
 								},
 								modifier = Modifier
 									.fillMaxWidth()
-							) { Text("\u270D\uFE0F Write") }
+							) { Text("Write") }
 						}
 					} else {
 						item {
@@ -115,7 +115,7 @@ fun ComposeScreen(
 								},
 								modifier = Modifier
 									.fillMaxWidth()
-							) { Text("\u270D\uFE0F Edit") }
+							) { Text("Edit") }
 						}
 					}
 				}

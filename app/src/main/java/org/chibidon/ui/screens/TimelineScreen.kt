@@ -1,8 +1,11 @@
 package org.chibidon.ui.screens
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -13,8 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Edit
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
@@ -60,7 +66,11 @@ fun TimelineContent(
 					onClick = onComposeClick,
 					modifier = Modifier
 						.fillMaxWidth()
-				) { Text("\u270D\uFE0F Compose") }
+				) {
+					Icon(Icons.Rounded.Edit, contentDescription = null, modifier = Modifier.size(16.dp))
+					Spacer(Modifier.width(4.dp))
+					Text("Compose")
+				}
 			}
 
 			when (val state = uiState) {
