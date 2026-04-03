@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -62,7 +63,9 @@ fun StatusDetailScreen(
 		TransformingLazyColumn(
 			state = columnState,
 			contentPadding = contentPadding,
-			modifier = Modifier.fillMaxSize(),
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(horizontal = 6.dp),
 		) {
 			when (val state = uiState) {
 				is StatusDetailUiState.Loading -> {
@@ -108,7 +111,7 @@ fun StatusDetailScreen(
 							onClick = {},
 							modifier = Modifier.fillMaxWidth(),
 						) {
-							// Author
+							// Author row: avatar + name + time
 							Row(verticalAlignment = Alignment.CenterVertically) {
 								AsyncImage(
 									model = status.account.avatar,
@@ -119,23 +122,24 @@ fun StatusDetailScreen(
 									contentScale = ContentScale.Crop,
 								)
 								Spacer(Modifier.width(6.dp))
-								Column(modifier = Modifier.weight(1f)) {
-									Text(
-										text = status.account.displayName.ifEmpty { status.account.username },
-										style = MaterialTheme.typography.titleSmall,
-									)
-									Text(
-										text = "@${status.account.acct}",
-										style = MaterialTheme.typography.labelSmall,
-										color = MaterialTheme.colorScheme.onSurfaceVariant,
-									)
-								}
+								Text(
+									text = status.account.displayName.ifEmpty { status.account.username },
+									style = MaterialTheme.typography.titleSmall,
+									modifier = Modifier.weight(1f),
+									maxLines = 1,
+								)
 								Text(
 									text = relativeTimestamp(status.createdAt),
 									style = MaterialTheme.typography.labelSmall,
 									color = MaterialTheme.colorScheme.onSurfaceVariant,
 								)
 							}
+							// Handle on its own line
+							Text(
+								text = "@${status.account.acct}",
+								style = MaterialTheme.typography.labelSmall,
+								color = MaterialTheme.colorScheme.onSurfaceVariant,
+							)
 
 							Spacer(Modifier.height(8.dp))
 
