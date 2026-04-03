@@ -3,9 +3,9 @@ package org.chibidon.ui.screens
 import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -62,7 +62,9 @@ fun StatusDetailScreen(
 		TransformingLazyColumn(
 			state = columnState,
 			contentPadding = contentPadding,
-			modifier = Modifier.fillMaxSize(),
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(horizontal = 14.dp),
 		) {
 			when (val state = uiState) {
 				is StatusDetailUiState.Loading -> {
