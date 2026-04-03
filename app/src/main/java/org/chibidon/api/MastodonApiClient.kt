@@ -33,10 +33,10 @@ class MastodonApiClient {
 
 	// --- OAuth ---
 
-	suspend fun createApp(domain: String): Application {
+	suspend fun createApp(domain: String, redirectUri: String = REDIRECT_URI): Application {
 		val body = FormBody.Builder()
 			.add("client_name", "Chibidon")
-			.add("redirect_uris", "chibidon://callback")
+			.add("redirect_uris", redirectUri)
 			.add("scopes", "read write follow push")
 			.add("website", "https://github.com/abbyfluoroethane/chibidon")
 			.build()
@@ -44,27 +44,32 @@ class MastodonApiClient {
 		return post("https://$domain/api/v1/apps", body, null)
 	}
 
-	fun getAuthorizationUrl(domain: String, clientId: String): String {
+	fun getAuthorizationUrl(domain: String, clientId: String, redirectUri: String = REDIRECT_URI): String {
 		return "https://$domain/oauth/authorize".toHttpUrl().newBuilder()
 			.addQueryParameter("client_id", clientId)
-			.addQueryParameter("redirect_uri", "chibidon://callback")
+			.addQueryParameter("redirect_uri", redirectUri)
 			.addQueryParameter("response_type", "code")
 			.addQueryParameter("scope", "read write follow push")
 			.build()
 			.toString()
 	}
 
-	suspend fun getToken(domain: String, clientId: String, clientSecret: String, code: String): Token {
+	suspend fun getToken(domain: String, clientId: String, clientSecret: String, code: String, redirectUri: String = REDIRECT_URI): Token {
 		val body = FormBody.Builder()
 			.add("client_id", clientId)
 			.add("client_secret", clientSecret)
-			.add("redirect_uri", "chibidon://callback")
+			.add("redirect_uri", redirectUri)
 			.add("grant_type", "authorization_code")
 			.add("code", code)
 			.add("scope", "read write follow push")
 			.build()
 
 		return post("https://$domain/oauth/token", body, null)
+	}
+
+	companion object {
+		const val REDIRECT_URI = "chibidon://callback"
+		const val OOB_REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob"
 	}
 
 	// --- Timelines ---
