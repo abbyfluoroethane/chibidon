@@ -4,10 +4,10 @@ import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -60,12 +60,16 @@ fun StatusDetailScreen(
 	}
 
 	ScreenScaffold(scrollState = columnState) { contentPadding ->
+		val adjustedPadding = PaddingValues(
+			start = contentPadding.calculateLeftPadding(androidx.compose.ui.unit.LayoutDirection.Ltr),
+			end = contentPadding.calculateRightPadding(androidx.compose.ui.unit.LayoutDirection.Ltr),
+			top = contentPadding.calculateTopPadding() + 24.dp,
+			bottom = contentPadding.calculateBottomPadding(),
+		)
 		TransformingLazyColumn(
 			state = columnState,
-			contentPadding = contentPadding,
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(horizontal = 6.dp),
+			contentPadding = adjustedPadding,
+			modifier = Modifier.fillMaxSize(),
 		) {
 			when (val state = uiState) {
 				is StatusDetailUiState.Loading -> {
