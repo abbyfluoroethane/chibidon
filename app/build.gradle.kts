@@ -41,9 +41,9 @@ android {
 }
 
 dependencies {
-	// Wear Compose
-	val wearComposeVersion = "1.4.0"
-	implementation("androidx.wear.compose:compose-material3:1.0.0-alpha27")
+	// Wear Compose (M3 Expressive)
+	val wearComposeVersion = "1.5.0"
+	implementation("androidx.wear.compose:compose-material3:1.0.0-beta01")
 	implementation("androidx.wear.compose:compose-foundation:$wearComposeVersion")
 	implementation("androidx.wear.compose:compose-navigation:$wearComposeVersion")
 
@@ -62,7 +62,6 @@ dependencies {
 
 	// Wear
 	implementation("androidx.wear:wear:1.3.0")
-	implementation("androidx.wear:wear-remote-interactions:1.0.0")
 	implementation("androidx.wear:wear-input:1.1.0")
 	implementation("com.google.android.gms:play-services-wearable:18.1.0")
 

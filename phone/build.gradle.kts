@@ -23,9 +23,37 @@ android {
 	kotlinOptions {
 		jvmTarget = "17"
 	}
+
+	buildFeatures {
+		compose = true
+	}
+
+	composeOptions {
+		kotlinCompilerExtensionVersion = "1.5.8"
+	}
 }
 
 dependencies {
+	// Compose
+	implementation(platform("androidx.compose:compose-bom:2024.06.00"))
+	implementation("androidx.compose.material3:material3")
+	implementation("androidx.compose.ui:ui")
+	implementation("androidx.compose.ui:ui-tooling-preview")
+	debugImplementation("androidx.compose.ui:ui-tooling")
+
+	// Activity & Lifecycle
+	implementation("androidx.activity:activity-compose:1.9.0")
+	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
+	implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
+
+	// Custom Tabs
+	implementation("androidx.browser:browser:1.8.0")
+
+	// Networking (for OAuth + server search)
+	implementation("com.squareup.okhttp3:okhttp:4.12.0")
+	implementation("com.google.code.gson:gson:2.10.1")
+
+	// Wearable Data Layer
 	implementation("com.google.android.gms:play-services-wearable:18.1.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")

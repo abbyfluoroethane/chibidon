@@ -31,7 +31,7 @@
 				<data
 					android:scheme="wear"
 					android:host="*"
-					android:pathPrefix="/chibidon/auth_code" />
+					android:pathPrefix="/chibidon/auth" />
 			</intent-filter>
 		</service>
 

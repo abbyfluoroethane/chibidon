@@ -10,11 +10,13 @@ class AuthSyncService : WearableListenerService() {
 	override fun onDataChanged(dataEvents: DataEventBuffer) {
 		for (event in dataEvents) {
 			if (event.type == DataEvent.TYPE_CHANGED &&
-				event.dataItem.uri.path == "/chibidon/auth_code"
+				event.dataItem.uri.path == "/chibidon/auth"
 			) {
 				val dataMap = DataMapItem.fromDataItem(event.dataItem).dataMap
-				val code = dataMap.getString("code") ?: continue
-				AuthCodeHolder.pendingCode = code
+				val domain = dataMap.getString("domain") ?: continue
+				val accessToken = dataMap.getString("accessToken") ?: continue
+				val acct = dataMap.getString("acct") ?: ""
+				AuthCredentialHolder.setCredentials(domain, accessToken, acct)
 			}
 		}
 	}

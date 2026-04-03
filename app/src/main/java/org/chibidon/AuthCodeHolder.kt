@@ -3,17 +3,23 @@ package org.chibidon
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-object AuthCodeHolder {
-	private val _code = MutableStateFlow<String?>(null)
-	val code: StateFlow<String?> = _code
+data class SyncedCredentials(
+	val domain: String,
+	val accessToken: String,
+	val acct: String,
+)
 
-	var pendingCode: String?
-		get() = _code.value
-		set(value) { _code.value = value }
+object AuthCredentialHolder {
+	private val _credentials = MutableStateFlow<SyncedCredentials?>(null)
+	val credentials: StateFlow<SyncedCredentials?> = _credentials
 
-	fun consume(): String? {
-		val c = _code.value
-		_code.value = null
+	fun setCredentials(domain: String, accessToken: String, acct: String) {
+		_credentials.value = SyncedCredentials(domain, accessToken, acct)
+	}
+
+	fun consume(): SyncedCredentials? {
+		val c = _credentials.value
+		_credentials.value = null
 		return c
 	}
 }
