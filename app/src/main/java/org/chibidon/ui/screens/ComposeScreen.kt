@@ -32,6 +32,7 @@ private const val KEY_POST = "post_text"
 @Composable
 fun ComposeScreen(
 	onDone: () -> Unit,
+	inReplyToId: String? = null,
 	viewModel: ComposeViewModel = viewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsState()
@@ -98,7 +99,7 @@ fun ComposeScreen(
 						}
 						item {
 							Button(
-								onClick = { viewModel.postStatus(text) },
+								onClick = { viewModel.postStatus(text, inReplyToId = inReplyToId) },
 								modifier = Modifier
 									.fillMaxWidth()
 							) { Text("Post") }
@@ -130,7 +131,7 @@ fun ComposeScreen(
 					item { Text(text = error.message, style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center) }
 					item {
 						Button(
-							onClick = { viewModel.postStatus(text) },
+							onClick = { viewModel.postStatus(text, inReplyToId = inReplyToId) },
 							modifier = Modifier
 								.fillMaxWidth()
 						) { Text("Try again") }

@@ -3,6 +3,8 @@ package org.chibidon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -51,7 +53,7 @@ class MainActivity : ComponentActivity() {
 								navController.navigate(Routes.statusDetail(statusId))
 							},
 							onComposeClick = {
-								navController.navigate(Routes.COMPOSE)
+								navController.navigate(Routes.compose())
 							},
 							onLogout = {
 								accountManager.clearAccount()
@@ -64,11 +66,27 @@ class MainActivity : ComponentActivity() {
 
 					composable(Routes.STATUS_DETAIL) { backStackEntry ->
 						val statusId = backStackEntry.arguments?.getString("statusId") ?: return@composable
-						StatusDetailScreen(statusId = statusId)
+						StatusDetailScreen(
+							statusId = statusId,
+							onReplyClick = { inReplyToId ->
+								navController.navigate(Routes.compose(inReplyToId))
+							},
+						)
 					}
 
-					composable(Routes.COMPOSE) {
+					composable(
+						route = Routes.COMPOSE,
+						arguments = listOf(
+							navArgument("inReplyToId") {
+								type = NavType.StringType
+								nullable = true
+								defaultValue = null
+							},
+						),
+					) { backStackEntry ->
+						val inReplyToId = backStackEntry.arguments?.getString("inReplyToId")
 						ComposeScreen(
+							inReplyToId = inReplyToId,
 							onDone = { navController.popBackStack() },
 						)
 					}
