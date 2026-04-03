@@ -1,11 +1,11 @@
 package org.chibidon.ui.screens
 
 import android.view.HapticFeedbackConstants
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -62,9 +62,7 @@ fun StatusDetailScreen(
 		TransformingLazyColumn(
 			state = columnState,
 			contentPadding = contentPadding,
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(horizontal = 14.dp),
+			modifier = Modifier.fillMaxSize(),
 		) {
 			when (val state = uiState) {
 				is StatusDetailUiState.Loading -> {
@@ -104,75 +102,72 @@ fun StatusDetailScreen(
 						}
 					}
 
-					// Author
+					// Main post content in a Card
 					item {
-						Row(verticalAlignment = Alignment.CenterVertically) {
-							AsyncImage(
-								model = status.account.avatar,
-								contentDescription = null,
-								modifier = Modifier
-									.size(24.dp)
-									.clip(CircleShape),
-								contentScale = ContentScale.Crop,
-							)
-							Spacer(Modifier.width(6.dp))
+						Card(
+							onClick = {},
+							modifier = Modifier.fillMaxWidth(),
+						) {
+							// Author
+							Row(verticalAlignment = Alignment.CenterVertically) {
+								AsyncImage(
+									model = status.account.avatar,
+									contentDescription = null,
+									modifier = Modifier
+										.size(24.dp)
+										.clip(CircleShape),
+									contentScale = ContentScale.Crop,
+								)
+								Spacer(Modifier.width(6.dp))
+								Column(modifier = Modifier.weight(1f)) {
+									Text(
+										text = status.account.displayName.ifEmpty { status.account.username },
+										style = MaterialTheme.typography.titleSmall,
+									)
+									Text(
+										text = "@${status.account.acct}",
+										style = MaterialTheme.typography.labelSmall,
+										color = MaterialTheme.colorScheme.onSurfaceVariant,
+									)
+								}
+								Text(
+									text = relativeTimestamp(status.createdAt),
+									style = MaterialTheme.typography.labelSmall,
+									color = MaterialTheme.colorScheme.onSurfaceVariant,
+								)
+							}
+
+							Spacer(Modifier.height(8.dp))
+
+							// Content
+							HtmlText(html = status.content)
+
+							// Media attachments
+							if (status.mediaAttachments.isNotEmpty()) {
+								Spacer(Modifier.height(8.dp))
+								status.mediaAttachments.forEach { attachment ->
+									AsyncImage(
+										model = attachment.previewUrl ?: attachment.url,
+										contentDescription = attachment.description,
+										modifier = Modifier
+											.fillMaxWidth()
+											.clip(RoundedCornerShape(8.dp)),
+										contentScale = ContentScale.FillWidth,
+									)
+									Spacer(Modifier.height(4.dp))
+								}
+							}
+
+							Spacer(Modifier.height(4.dp))
+
+							// Stats
 							Text(
-								text = status.account.displayName.ifEmpty { status.account.username },
-								style = MaterialTheme.typography.titleSmall,
-								modifier = Modifier.weight(1f),
-							)
-							Text(
-								text = relativeTimestamp(status.createdAt),
+								text = "${status.favouritesCount} likes · ${status.reblogsCount} boosts · ${status.repliesCount} replies",
 								style = MaterialTheme.typography.labelSmall,
 								color = MaterialTheme.colorScheme.onSurfaceVariant,
 							)
 						}
 					}
-
-					item {
-						Text(
-							text = "@${status.account.acct}",
-							style = MaterialTheme.typography.labelSmall,
-							color = MaterialTheme.colorScheme.onSurfaceVariant,
-						)
-					}
-
-					item { Spacer(Modifier.height(4.dp)) }
-
-					// Content
-					item {
-						HtmlText(html = status.content)
-					}
-
-					// Media attachments
-					if (status.mediaAttachments.isNotEmpty()) {
-						item { Spacer(Modifier.height(4.dp)) }
-						status.mediaAttachments.forEach { attachment ->
-							item {
-								AsyncImage(
-									model = attachment.previewUrl ?: attachment.url,
-									contentDescription = attachment.description,
-									modifier = Modifier
-										.fillMaxWidth()
-										.clip(RoundedCornerShape(12.dp)),
-									contentScale = ContentScale.FillWidth,
-								)
-							}
-						}
-					}
-
-					item { Spacer(Modifier.height(8.dp)) }
-
-					// Stats
-					item {
-						Text(
-							text = "${status.favouritesCount} likes \u00B7 ${status.reblogsCount} boosts \u00B7 ${status.repliesCount} replies",
-							style = MaterialTheme.typography.labelSmall,
-							color = MaterialTheme.colorScheme.onSurfaceVariant,
-						)
-					}
-
-					item { Spacer(Modifier.height(4.dp)) }
 
 					// Actions — full-width stacked buttons
 					item {
