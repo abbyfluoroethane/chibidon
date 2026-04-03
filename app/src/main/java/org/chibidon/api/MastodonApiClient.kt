@@ -134,6 +134,12 @@ class MastodonApiClient {
 		return get(url.toString())
 	}
 
+	// --- Server Discovery ---
+
+	suspend fun getServers(): List<MastodonServer> {
+		return get("https://api.joinmastodon.org/servers")
+	}
+
 	// --- Accounts ---
 
 	suspend fun verifyCredentials(): Account {

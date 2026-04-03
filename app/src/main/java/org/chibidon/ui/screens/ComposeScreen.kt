@@ -1,8 +1,7 @@
 package org.chibidon.ui.screens
 
 import android.app.Activity
-import android.content.Intent
-import android.speech.RecognizerIntent
+import android.app.RemoteInput
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +26,11 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import androidx.wear.input.RemoteInputIntentHelper
 import org.chibidon.viewmodel.ComposeUiState
 import org.chibidon.viewmodel.ComposeViewModel
+
+private const val KEY_POST = "post_text"
 
 @Composable
 fun ComposeScreen(
@@ -39,26 +41,26 @@ fun ComposeScreen(
 	var text by remember { mutableStateOf("") }
 	val listState = rememberScalingLazyListState()
 
-	val voiceLauncher = rememberLauncherForActivityResult(
+	val inputLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
 	) { result ->
 		if (result.resultCode == Activity.RESULT_OK) {
-			val spoken = result.data
-				?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-				?.firstOrNull()
-			if (!spoken.isNullOrBlank()) {
-				text = spoken
+			val results = RemoteInput.getResultsFromIntent(result.data ?: return@rememberLauncherForActivityResult)
+			val input = results.getCharSequence(KEY_POST)?.toString()
+			if (!input.isNullOrBlank()) {
+				text = input
 			}
 		}
 	}
 
-	// Launch voice input on first open
+	// Launch keyboard immediately on open
 	LaunchedEffect(Unit) {
-		val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-			putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-			putExtra(RecognizerIntent.EXTRA_PROMPT, "What's on your mind?")
-		}
-		voiceLauncher.launch(intent)
+		val remoteInput = RemoteInput.Builder(KEY_POST)
+			.setLabel("What's on your mind?")
+			.build()
+		val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+		RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
+		inputLauncher.launch(intent)
 	}
 
 	LaunchedEffect(uiState) {
@@ -77,22 +79,16 @@ fun ComposeScreen(
 			is ComposeUiState.Idle -> {
 				if (text.isBlank()) {
 					item {
-						Text(
-							text = "Tap to speak",
-							style = MaterialTheme.typography.bodySmall,
-							textAlign = TextAlign.Center,
-						)
-					}
-					item {
 						Button(
 							onClick = {
-								val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-									putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-									putExtra(RecognizerIntent.EXTRA_PROMPT, "What's on your mind?")
-								}
-								voiceLauncher.launch(intent)
+								val remoteInput = RemoteInput.Builder(KEY_POST)
+									.setLabel("What's on your mind?")
+									.build()
+								val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+								RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
+								inputLauncher.launch(intent)
 							},
-						) { Text("\uD83C\uDF99\uFE0F Speak") }
+						) { Text("\u270D\uFE0F Write") }
 					}
 				} else {
 					item {
@@ -112,13 +108,14 @@ fun ComposeScreen(
 					item {
 						Button(
 							onClick = {
-								val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-									putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-									putExtra(RecognizerIntent.EXTRA_PROMPT, "What's on your mind?")
-								}
-								voiceLauncher.launch(intent)
+								val remoteInput = RemoteInput.Builder(KEY_POST)
+									.setLabel("What's on your mind?")
+									.build()
+								val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+								RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
+								inputLauncher.launch(intent)
 							},
-						) { Text("\uD83C\uDF99\uFE0F Redo") }
+						) { Text("\u270D\uFE0F Edit") }
 					}
 				}
 			}

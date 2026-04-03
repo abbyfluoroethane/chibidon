@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.chibidon.WearApp
 import org.chibidon.api.SavedAccount
+import org.chibidon.model.MastodonServer
 
 sealed class LoginUiState {
 	data object Idle : LoginUiState()
@@ -26,7 +27,42 @@ class LoginViewModel : ViewModel() {
 	private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
 	val uiState: StateFlow<LoginUiState> = _uiState
 
+	private var allServers: List<MastodonServer> = emptyList()
+
+	private val _suggestions = MutableStateFlow<List<MastodonServer>>(emptyList())
+	val suggestions: StateFlow<List<MastodonServer>> = _suggestions
+
+	private val _query = MutableStateFlow("")
+	val query: StateFlow<String> = _query
+
 	private var currentDomain: String = ""
+
+	init {
+		fetchServers()
+	}
+
+	private fun fetchServers() {
+		viewModelScope.launch {
+			try {
+				allServers = api.getServers()
+			} catch (_: Exception) {
+				// Fail silently — user can still type a custom domain
+			}
+		}
+	}
+
+	fun updateQuery(text: String) {
+		_query.value = text
+		if (text.length < 2) {
+			_suggestions.value = emptyList()
+			return
+		}
+		val lower = text.lowercase()
+		_suggestions.value = allServers
+			.filter { it.domain.contains(lower) }
+			.sortedByDescending { it.lastWeekUsers }
+			.take(5)
+	}
 
 	fun startLogin(domain: String) {
 		currentDomain = domain.trim().lowercase().removePrefix("https://").removeSuffix("/")

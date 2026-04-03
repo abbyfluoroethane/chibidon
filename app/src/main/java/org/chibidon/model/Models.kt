@@ -97,3 +97,11 @@ data class StatusContext(
 	val ancestors: List<Status> = emptyList(),
 	val descendants: List<Status> = emptyList(),
 )
+
+data class MastodonServer(
+	val domain: String = "",
+	val description: String = "",
+	@SerializedName("total_users") val totalUsers: Long = 0,
+	@SerializedName("last_week_users") val lastWeekUsers: Long = 0,
+	@SerializedName("approval_required") val approvalRequired: Boolean = false,
+)

@@ -1,12 +1,14 @@
 package org.chibidon.ui.screens
 
 import android.app.Activity
+import android.app.RemoteInput
 import android.content.Intent
 import android.net.Uri
-import android.speech.RecognizerIntent
+import android.os.Bundle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,9 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,15 +23,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.remote.interactions.RemoteActivityHelper
 import org.chibidon.viewmodel.LoginUiState
 import org.chibidon.viewmodel.LoginViewModel
+
+private const val KEY_DOMAIN = "domain"
+private const val KEY_AUTH_CODE = "auth_code"
 
 @Composable
 fun LoginScreen(
@@ -40,21 +45,31 @@ fun LoginScreen(
 	viewModel: LoginViewModel = viewModel(),
 ) {
 	val uiState by viewModel.uiState.collectAsState()
+	val query by viewModel.query.collectAsState()
+	val suggestions by viewModel.suggestions.collectAsState()
 	val context = LocalContext.current
 	val listState = rememberScalingLazyListState()
-	var openingAuth by remember { mutableStateOf(false) }
 
-	val voiceLauncher = rememberLauncherForActivityResult(
+	val domainLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
 	) { result ->
 		if (result.resultCode == Activity.RESULT_OK) {
-			val spoken = result.data
-				?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-				?.firstOrNull()
-				?.trim()
-				?.replace(" ", "")
-			if (!spoken.isNullOrBlank()) {
-				viewModel.submitAuthCode(spoken)
+			val results = RemoteInput.getResultsFromIntent(result.data ?: return@rememberLauncherForActivityResult)
+			val domain = results.getCharSequence(KEY_DOMAIN)?.toString()?.trim()
+			if (!domain.isNullOrBlank()) {
+				viewModel.updateQuery(domain)
+			}
+		}
+	}
+
+	val codeLauncher = rememberLauncherForActivityResult(
+		ActivityResultContracts.StartActivityForResult()
+	) { result ->
+		if (result.resultCode == Activity.RESULT_OK) {
+			val results = RemoteInput.getResultsFromIntent(result.data ?: return@rememberLauncherForActivityResult)
+			val code = results.getCharSequence(KEY_AUTH_CODE)?.toString()?.trim()
+			if (!code.isNullOrBlank()) {
+				viewModel.submitAuthCode(code)
 			}
 		}
 	}
@@ -91,30 +106,46 @@ fun LoginScreen(
 				}
 
 				item {
-					Text(
-						text = "Select your instance",
-						style = MaterialTheme.typography.bodySmall,
-						textAlign = TextAlign.Center,
-					)
+					Button(
+						onClick = {
+							val remoteInput = RemoteInput.Builder(KEY_DOMAIN)
+								.setLabel("Instance domain")
+								.build()
+							val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+							RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
+							domainLauncher.launch(intent)
+						},
+						modifier = Modifier.fillMaxWidth(),
+					) {
+						Text(if (query.isBlank()) "\u2328\uFE0F Enter instance" else query)
+					}
 				}
 
-				item {
-					Button(
-						onClick = { viewModel.startLogin("mastodon.social") },
-						modifier = Modifier.fillMaxWidth(),
-					) { Text("mastodon.social") }
+				if (query.isNotBlank() && suggestions.isEmpty()) {
+					// No suggestions — let user use what they typed as a custom domain
+					item {
+						Button(
+							onClick = { viewModel.startLogin(query) },
+							modifier = Modifier.fillMaxWidth(),
+						) { Text("Connect to $query") }
+					}
 				}
-				item {
-					Button(
-						onClick = { viewModel.startLogin("mas.to") },
+
+				items(suggestions, key = { it.domain }) { server ->
+					Card(
+						onClick = { viewModel.startLogin(server.domain) },
 						modifier = Modifier.fillMaxWidth(),
-					) { Text("mas.to") }
-				}
-				item {
-					Button(
-						onClick = { viewModel.startLogin("hachyderm.io") },
-						modifier = Modifier.fillMaxWidth(),
-					) { Text("hachyderm.io") }
+					) {
+						Text(
+							text = server.domain,
+							style = MaterialTheme.typography.labelMedium,
+						)
+						Text(
+							text = "${server.lastWeekUsers} active users",
+							style = MaterialTheme.typography.labelSmall,
+							color = MaterialTheme.colorScheme.onSurfaceVariant,
+						)
+					}
 				}
 			}
 
@@ -129,19 +160,9 @@ fun LoginScreen(
 			}
 
 			is LoginUiState.WaitingForCode -> {
-				if (openingAuth) {
-					item { CircularProgressIndicator() }
-					item {
-						Text(
-							text = "Opening on phone...",
-							style = MaterialTheme.typography.bodySmall,
-						)
-					}
-				}
-
 				item {
 					Text(
-						text = "1. Open auth on your phone\n2. Log in and copy the code\n3. Speak or enter the code",
+						text = "1. Open auth on your phone\n2. Log in and copy the code\n3. Enter the code below",
 						style = MaterialTheme.typography.bodySmall,
 						textAlign = TextAlign.Center,
 						modifier = Modifier.padding(horizontal = 8.dp),
@@ -150,13 +171,11 @@ fun LoginScreen(
 				item {
 					Button(
 						onClick = {
-							openingAuth = true
 							val helper = RemoteActivityHelper(context)
 							val intent = Intent(Intent.ACTION_VIEW)
 								.addCategory(Intent.CATEGORY_BROWSABLE)
 								.setData(Uri.parse(state.authUrl))
 							helper.startRemoteActivity(intent)
-							openingAuth = false
 						},
 						modifier = Modifier.fillMaxWidth(),
 					) { Text("\uD83D\uDCF1 Open on Phone") }
@@ -164,14 +183,15 @@ fun LoginScreen(
 				item {
 					Button(
 						onClick = {
-							val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-								putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-								putExtra(RecognizerIntent.EXTRA_PROMPT, "Say your auth code")
-							}
-							voiceLauncher.launch(intent)
+							val remoteInput = RemoteInput.Builder(KEY_AUTH_CODE)
+								.setLabel("Auth code")
+								.build()
+							val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+							RemoteInputIntentHelper.putRemoteInputsExtra(intent, listOf(remoteInput))
+							codeLauncher.launch(intent)
 						},
 						modifier = Modifier.fillMaxWidth(),
-					) { Text("\uD83C\uDF99\uFE0F Speak Code") }
+					) { Text("\u2328\uFE0F Enter Code") }
 				}
 			}
 
